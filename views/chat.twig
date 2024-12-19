@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Bienvenue </h1>
+    <label for="chat">Catégorie : </label>
+    <input type="text" id="chat" " />
+    <button onClick="sendMsg()">Afficher</button>
+    <div id="messages"></div>
+
+    <script>
+        var socket = io();
+
+        socket.on('msg', (data) => {
+            var p = document.createElement('p');
+            p.innerText = data;
+            document.getElementById('messages').appendChild(p);
+        });
+
+        function sendMsg() {
+            var msg = document.getElementById('chat').value;
+            socket.emit('send-msg', { msg: msg });
+            document.getElementById('chat').value = "";
+        }
+    </script>
+</body>
+</html>
